@@ -1,4 +1,4 @@
-# Pre-requisites
+## Pre-requisites
 
 Add a `config.py` with the following variables:
 
@@ -7,16 +7,20 @@ dark_sky_key = "<DARK SKY API KEY>"
 dark_sky_root = "https://api.darksky.net"
 ```
 
-# Build & run
-
-## With defaults
+## Build 
 
 ```
 $ (host) docker build -t sprinkler:latest .
+```
+
+## Run
+
+### With Defaults
+```
 $ (host) docker run --rm sprinkler:latest
 ```
 
-## Custom usage
+### With Customizations
 
 ```
 $ (host) docker run --rm sprinkler:latest python ./main.py --help
@@ -35,8 +39,7 @@ Options:
   --help                         Show this message and exit.
 ```
 
-
-# Dependencies
+## Managing dependencies
 
 Dependencies should be installed within the docker container to avoid creating a local virtual env.
 
