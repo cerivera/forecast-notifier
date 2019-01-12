@@ -41,18 +41,21 @@ def get_rainy_days(daily_forecast, probability_threshold):
     help='Rain probability threshold used to identify rainy days.'
 )
 def sprinkler_tasker(lat, lon, days_threshold, prob_threshold):
+    # TODO complain if no dark_sky credentials
     api_client = DarkSkyApi(config.dark_sky_root, config.dark_sky_key)
-
-    coords = (lat, lon)
-
-    response = api_client.get_forecast(coords)
+    response = api_client.get_forecast((lat, lon))
 
     num_rainy_days = get_rainy_days(response["daily"]["data"], prob_threshold)
-    print("{} rainy days this week".format(num_rainy_days))
 
-    if num_rainy_days > days_threshold:
+    if num_rainy_days == 0:
+        print("No rainy days this week.")
+    elif num_rainy_days < days_threshold:
+        days_text = "day" if num_rainy_days == 1 else "days"
+        print("Only {} rainy {} this week".format(num_rainy_days, days_text))
+    else:
         today = datetime.datetime.now()
         next_week = today + datetime.timedelta(days=7)
+        # TODO actually push the task somewhere. RTM?
         print("Turn off your sprinklers {}".format(today.strftime("%D")))
         print("Turn on your sprinklers {}".format(next_week.strftime("%D")))
 
