@@ -1,6 +1,7 @@
 import datetime
 import os
 
+import click
 import requests
 
 import config
@@ -14,24 +15,47 @@ class DarkSkyApi:
         return requests.get("{}/forecast/{}/{},{}".format(
             self.base_url, self.api_key, *coords)).json()
 
-def get_rainy_days(daily_forecast):
+def get_rainy_days(daily_forecast, probability_threshold):
     return len([day for day in daily_forecast
-                if day["precipProbability"] > 0.6])
+                if day["precipProbability"] > probability_threshold])
 
-if __name__ == "__main__":
-    RAINY_DAYS_THRESHOLD = os.getenv('RAINY_DAYS_THRESHOLD', 2)
-
+@click.command(
+    help='Warns you to turn off your sprinklers if rain is forecasted this week')
+@click.option(
+    '--lat',
+    default=29.562854,
+    help='Latitude')
+@click.option(
+    '--lon',
+    default=-98.445958,
+    help='Longitude')
+@click.option(
+    '--days_threshold',
+    '-dt',
+    default=2,
+    help='Trigger reminder after this many rainy days forecasted.')
+@click.option(
+    '--prob_threshold',
+    '-pt',
+    default=0.6,
+    help='Rain probability threshold used to identify rainy days.'
+)
+def sprinkler_tasker(lat, lon, days_threshold, prob_threshold):
     api_client = DarkSkyApi(config.dark_sky_root, config.dark_sky_key)
 
-    coords = (29.562854, -98.445958) # TODO Accept as args
+    coords = (lat, lon)
 
     response = api_client.get_forecast(coords)
 
-    num_rainy_days = get_rainy_days(response["daily"]["data"])
+    num_rainy_days = get_rainy_days(response["daily"]["data"], prob_threshold)
     print("{} rainy days this week".format(num_rainy_days))
 
-    if num_rainy_days > RAINY_DAYS_THRESHOLD:
+    if num_rainy_days > days_threshold:
         today = datetime.datetime.now()
         next_week = today + datetime.timedelta(days=7)
         print("Turn off your sprinklers {}".format(today.strftime("%D")))
         print("Turn on your sprinklers {}".format(next_week.strftime("%D")))
+
+
+if __name__ == "__main__":
+    sprinkler_tasker()
