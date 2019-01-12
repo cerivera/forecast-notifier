@@ -19,10 +19,8 @@ $ (host) docker run --rm sprinkler:latest
 ## Custom usage
 
 ```
-$ (host) docker run --rm sprinkler:latest python ./main.py --lat 123 --lon -456 --dt 3 --pt 0.4
-```
+$ (host) docker run --rm sprinkler:latest python ./main.py --help
 
-```
 Usage: main.py [OPTIONS]
 
   Warns you to turn off your sprinklers if rain is forecasted this week
