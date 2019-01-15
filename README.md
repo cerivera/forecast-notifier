@@ -10,24 +10,24 @@ dark_sky_root = "https://api.darksky.net"
 ## Build 
 
 ```
-$ (host) docker build -t sprinkler:latest .
+$ (host) docker build -t forecast:latest .
 ```
 
 ## Run
 
 ### With Defaults
 ```
-$ (host) docker run --rm sprinkler:latest
+$ (host) docker run --rm forecast:latest
 ```
 
 ### With Customizations
 
 ```
-$ (host) docker run --rm sprinkler:latest python ./main.py --help
+$ (host) docker run --rm forecast:latest python ./main.py --help
 
 Usage: main.py [OPTIONS]
 
-  Warns you to turn off your sprinklers if rain is forecasted this week
+  Warns you to turn off your forecasts if rain is forecasted this week
 
 Options:
   --lat FLOAT                    Latitude
@@ -46,7 +46,7 @@ Dependencies should be installed within the docker container to avoid creating a
 After building the docker image, you can run it with a volume to make sure any changes in the container show up in the host.
 
 ```
-$ (host)      docker run -it --rm -v $(pwd):/opt/app sprinkler:latest
+$ (host)      docker run -it --rm -v $(pwd):/opt/app forecast:latest
 $ (container) pip3 install click
 $ (container) pip3 freeze > requirements.txt
 $ (container) exit
