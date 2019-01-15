@@ -8,6 +8,7 @@ import requests
 import config
 
 
+# TODO don't hardcode
 TZ = pytz.timezone('America/Chicago')
 
 class DarkSkyApi:
@@ -31,16 +32,17 @@ def get_rain_text(rainy_days):
     if len(rainy_days) == 0:
         return "No rainy days"
     else:
-        return "Rainy days: [{}]".format(",".join([timestamp_to_day(day["time"]) for day in rainy_days]))
+        return "Rainy days: [{}]".format(",".join(
+            [timestamp_to_day(day["time"]) for day in rainy_days]))
 
 def get_cold_text(cold_days):
     if len(cold_days) == 0:
         return "No cold days"
     else:
-        return "Cold days: [{}]".format(",".join([timestamp_to_day(day["time"]) for day in cold_days]))
+        return "Cold days: [{}]".format(",".join(
+            [timestamp_to_day(day["time"]) for day in cold_days]))
 
 def timestamp_to_day(ts):
-    # TODO make TZ not a constant
     date = datetime.datetime.fromtimestamp(ts, tz=TZ)
     return date.strftime("%A")
 

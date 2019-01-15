@@ -18,6 +18,8 @@ $ (host) docker build -t forecast:latest .
 ### With Defaults
 ```
 $ (host) docker run --rm forecast:latest
+Cold days: [Tuesday,Sunday]
+Rainy days: [Friday,Saturday]
 ```
 
 ### With Customizations
