@@ -27,16 +27,16 @@ $ (host) docker run --rm forecast:latest python ./main.py --help
 
 Usage: main.py [OPTIONS]
 
-  Warns you to turn off your forecasts if rain is forecasted this week
+  Get the week's forecast.
 
 Options:
-  --lat FLOAT                    Latitude
-  --lon FLOAT                    Longitude
-  -dt, --days_threshold INTEGER  Trigger reminder after this many rainy days
-                                 forecasted.
-  -pt, --prob_threshold FLOAT    Rain probability threshold used to identify
-                                 rainy days.
-  --help                         Show this message and exit.
+  --lat FLOAT              Latitude
+  --lon FLOAT              Longitude
+  -rp, --rain_prob FLOAT   Rain probability threshold used to identify rainy
+                           days.
+  -mt, --max_temp INTEGER  Max temperature threshold used to identify cold
+                           days.
+  --help                   Show this message and exit.
 ```
 
 ## Managing dependencies
